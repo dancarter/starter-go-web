@@ -9,31 +9,29 @@ import (
   "time"
 )
 
+type Todo struct {
+  id          int
+  subject     string
+  description string
+  completed   bool
+  created_at  time.Time
+  updated_at  time.Time
+}
+
 func main() {
-  sql.Create("postgres", "postgres://postgres:postgres@localhost/godos_development?sslmode=disable")
   db, err := sql.Open("postgres", "postgres://postgres:postgres@localhost/godos_development?sslmode=disable")
   if err != nil {
     log.Fatal(err)
   }
 
-  now := time.Now()
-  res, err := db.Exec(
-    "insert into todos (subject, description, created_at, updated_at) values ($1, $2, $3, $4)",
-    "Mow the lawn", "", now, now)
-  if err != nil {
-    log.Fatal(err)
-  }
-  affected, _ := res.RowsAffected()
-  log.Printf("Rows affected %d", affected)
-
-  var subject string
-
-  rows, err := db.Query("select subject from todos")
+  rows, err := db.Query("select * from todos")
   for rows.Next() {
-    if err := rows.Scan(&subject); err != nil {
+    todo := Todo{}
+    if err := rows.Scan(&todo.id, &todo.subject, &todo.description, &todo.completed, &todo.created_at, &todo.updated_at); err != nil {
       log.Fatal(err)
     }
-    log.Printf("Subject is %s", subject)
+    log.Printf("Id is %s", todo.id)
+    log.Printf("Subject is %s", todo.subject)
   }
 
   if err := rows.Err(); err != nil {
