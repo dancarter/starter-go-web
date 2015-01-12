@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
+	"strings"
 
 	"github.com/unrolled/render"
 )
@@ -14,14 +16,27 @@ type User struct {
 
 func main() {
 	r := render.New(render.Options{
-		IndentJSON: true,
-		Directory:  "templates",
-		Extensions: []string{".html", ".tmpl"},
+		IndentJSON:    true,
+		Directory:     "templates",
+		Extensions:    []string{".html", ".tmpl"},
+		Layout:        "application",
+		Funcs:         []template.FuncMap{{"upper": strings.ToUpper}},
+		IndentXML:     true,
+		PrefixXML:     []byte("<?xml version='1.0' encoding='UTF-8'?>\n'"),
+		IsDevelopment: true,
 	})
 
 	http.HandleFunc("/json", func(res http.ResponseWriter, req *http.Request) {
 		user := userFromReq(req)
 		r.JSON(res, 200, user)
+	})
+	http.HandleFunc("/xml", func(res http.ResponseWriter, req *http.Request) {
+		user := userFromReq(req)
+		r.XML(res, 200, user)
+	})
+	http.HandleFunc("/admin", func(res http.ResponseWriter, req *http.Request) {
+		user := userFromReq(req)
+		r.HTML(res, 200, "admin/index", user)
 	})
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		user := userFromReq(req)
