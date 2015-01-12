@@ -1,11 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
-	"text/template"
+
+	"github.com/unrolled/render"
 )
 
 type User struct {
@@ -14,20 +13,19 @@ type User struct {
 }
 
 func main() {
+	r := render.New(render.Options{
+		IndentJSON: true,
+		Directory:  "templates",
+		Extensions: []string{".html", ".tmpl"},
+	})
+
 	http.HandleFunc("/json", func(res http.ResponseWriter, req *http.Request) {
 		user := userFromReq(req)
-		bytes, _ := json.Marshal(user)
-		res.Header().Add("Content-Type", "application/json")
-		res.WriteHeader(200)
-		res.Write(bytes)
+		r.JSON(res, 200, user)
 	})
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		user := userFromReq(req)
-		body, _ := ioutil.ReadFile("templates/index.html")
-		tmpl, _ := template.New("Some Name").Parse(string(body))
-		tmpl.Execute(res, user)
-		res.Header().Add("Content-Type", "text/html")
-		res.WriteHeader(200)
+		r.HTML(res, 200, "index", user)
 	})
 
 	http.ListenAndServe(":4000", nil)
