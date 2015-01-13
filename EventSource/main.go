@@ -50,7 +50,7 @@ func DeleteUsersHandler(res http.ResponseWriter, req *http.Request) {
 	name := req.FormValue("user")
 	if strings.ToLower(name) != "admin" {
 		delete(Users, strings.ToLower(name))
-		sendMessage(Admin, name+" has entered the room.")
+		sendMessage(Admin, name+" has left the room.")
 		sendUsers()
 	}
 }

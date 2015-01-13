@@ -1,0 +1,21 @@
+body {
+  padding-top: 60px;
+  /* 60px to make the container go all the way to the bottom of the topbar */ }
+
+h1 {
+  padding-left: 10px; }
+
+h3 {
+  margin-top: 0px; }
+
+#chat li {
+  padding: 5px; }
+#chat li:nth-child(odd) {
+  background-color: #f0f0f0; }
+
+#chat-area {
+  display: none; }
+
+.me {
+  background-color: #ba8a9d;
+  color: #ffffff; }

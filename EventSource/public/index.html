@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ChatlyApp</title>
+    <script src='/js/jquery.js'></script>
+    <script src='/js/app.js'></script>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+      </div>
+    </div>
+
+    <div class="container" id='main'>
+
+<div class="offset3 alert alert-info chat-unavailable">
+  Chat is unavailable right now. Please wait while we connect you...
+</div>
+
+<h1 class='offset3'>Hello <span class='username'></span></h1>
+
+<div class='row' id='chat-area'>
+
+  <div class='span3'>
+    <div class="well">
+      <ul class="nav nav-list" id='users'>
+        <li class="nav-header">In The Room</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class='span6'>
+
+    <ul id='chat' class='unstyled'>
+    </ul>
+
+    <form id='chat-form'>
+      <div class="input-append">
+        <div class='control-group'>
+          <input class="span6" id="chat-msg" name='msg' type="text" placeholder='Message Here'>
+          <button class="btn" type="button" id='chat-submit'>Submit</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+</div>
+
+    </div> <!-- /container -->
+
+  </body>
+</html
